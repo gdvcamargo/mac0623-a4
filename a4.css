@@ -1,0 +1,181 @@
+/* MAC0623 — A4 Mobile AR Docking — styles */
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #111;
+  color: #eee;
+}
+
+/* ---------- Página de preparação ---------- */
+#setup {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+#setup h1 { font-size: 22px; margin: 0 0 6px; }
+#setup label { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+#setup input, #setup select {
+  font-size: 16px;
+  padding: 8px;
+  background: #222;
+  color: #eee;
+  border: 1px solid #444;
+  border-radius: 6px;
+}
+#setup .row { display: flex; gap: 10px; }
+#setup button {
+  flex: 1;
+  font-size: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #457;
+  color: #fff;
+}
+#setup button.danger { background: #733; }
+.hint { color: #9ab; margin: 0; font-size: 14px; }
+#arButtonSlot { min-height: 52px; position: relative; }
+/* O ARButton do three.js se posiciona sozinho (absolute, embaixo); aqui fica no fluxo. */
+#arButtonSlot button {
+  position: static !important;
+  width: 100% !important;
+  left: auto !important;
+  bottom: auto !important;
+  padding: 14px !important;
+  font-size: 16px !important;
+}
+
+/* ---------- Overlay do AR ---------- */
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: none;
+}
+#overlay.active { display: block; }
+
+/* Altura reservada no topo para a câmera frontal (furo/notch). Dentro do AR o Android
+   às vezes informa safe-area 0, por isso o mínimo fixo. */
+:root { --top-inset: max(env(safe-area-inset-top, 0px), 38px); }
+
+#topBar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+  padding: calc(var(--top-inset) + 6px) 12px 10px;
+  background: rgba(10, 10, 10, 0.6);
+  font-size: 15px;
+}
+#trialLabel { font-weight: 600; }
+#errors { font-variant-numeric: tabular-nums; }
+#errors .ok { color: #7f7; }
+#errors .bad { color: #fc6; }
+#practiceLabel { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+#exitArBtn {
+  font-size: 16px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(120, 40, 40, 0.85);
+  color: #fff;
+}
+#practiceTechnique { font-size: 14px; padding: 4px 10px; background: #345; color: #eee; border: 1px solid #678; border-radius: 6px; }
+
+#message {
+  position: absolute;
+  top: calc(var(--top-inset) + 84px); left: 12px; right: 12px;
+  text-align: center;
+  font-size: 17px;
+  text-shadow: 0 1px 3px #000;
+  pointer-events: none;
+}
+#message.alert { color: #f88; font-weight: 600; }
+
+.panel {
+  position: absolute;
+  left: 16px; right: 16px;
+  bottom: 24px;
+  padding: 16px;
+  background: rgba(15, 15, 15, 0.9);
+  border-radius: 12px;
+  text-align: center;
+}
+.panel h2 { margin: 0 0 10px; font-size: 20px; }
+.panel p { margin: 0 0 12px; font-size: 16px; line-height: 1.5; }
+.panel button {
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #2a5;
+  color: #fff;
+}
+#resultPanel h2 { color: #7f7; }
+.scale { display: flex; justify-content: space-between; gap: 8px; }
+.scale button { flex: 1; padding: 14px 0; background: #457; }
+.scaleEnds { display: flex; justify-content: space-between; color: #9ab; font-size: 14px; margin: 8px 0 0 !important; }
+
+#replaceBtn {
+  position: absolute;
+  left: 16px; bottom: 124px;
+  font-size: 14px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(60, 60, 60, 0.8);
+  color: #eee;
+}
+
+/* Botão do Custom Carry: grande, no canto inferior direito, ao alcance do polegar. */
+#carryBtn {
+  position: absolute;
+  right: 20px; bottom: 28px;
+  width: 104px; height: 104px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: rgba(30, 136, 229, 0.75);
+  color: #fff;
+  font-size: 17px;
+  font-weight: 600;
+}
+#carryBtn.held { background: rgba(255, 193, 7, 0.9); color: #222; transform: scale(0.94); }
+
+.hidden { display: none !important; }
+
+#glCanvas { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+
+/* Joystick de rotação do Custom Carry: faixa no canto inferior esquerdo (outro polegar). */
+#rotatePad {
+  position: absolute;
+  left: 16px; bottom: 34px;
+  width: 190px; height: 72px;
+  border-radius: 36px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(20, 20, 20, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+#rotatePad .arrow { font-size: 26px; color: #fff; pointer-events: none; }
+#rotateKnob {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 56px; height: 56px;
+  margin: -28px 0 0 -28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+}

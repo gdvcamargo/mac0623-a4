@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>MAC0623 — A4 Docking em AR</title>
+  <link rel="stylesheet" href="./a4.css" />
+</head>
+<body>
+
+  <!-- Página de preparação (fora do AR): o experimentador preenche e entra no AR.
+       Depois que a sessão AR termina, volta-se para cá para baixar o CSV. -->
+  <main id="setup">
+    <h1>A4 — Docking em AR</h1>
+    <label>Participante <input id="participantId" value="P01" size="5" autocomplete="off" /></label>
+    <label>Primeira técnica
+      <select id="firstTechnique">
+        <option value="touch">Touch (gestos)</option>
+        <option value="custom_carry">Custom Carry (carregar + joystick)</option>
+      </select>
+    </label>
+    <p id="orderHint" class="hint"></p>
+    <label>Superfície / luz <input id="envNote" placeholder="ex.: mesa de madeira, luz do dia" /></label>
+    <p id="progress" class="hint"></p>
+    <div id="arButtonSlot"></div>
+    <div class="row">
+      <button id="downloadBtn" type="button">Baixar CSV</button>
+      <button id="resetBtn" type="button">Próximo participante</button>
+    </div>
+    <button id="clearBtn" type="button" class="danger">Apagar dados do CSV</button>
+    <p id="savedRows" class="hint"></p>
+    <p id="xrMessage" class="hint"></p>
+  </main>
+
+  <!-- Overlay do AR (WebXR dom-overlay): fica por cima da câmera durante a sessão. -->
+  <div id="overlay">
+    <div id="topBar">
+      <span id="trialLabel">—</span>
+      <span id="errors"></span>
+      <label id="practiceLabel"><input id="practiceToggle" type="checkbox" /> Treino</label>
+      <!-- Botão, não <select>: a lista nativa do select não abre dentro do overlay do WebXR. -->
+      <button id="practiceTechnique" type="button" class="hidden" data-value="touch" title="Técnica do treino (toque para trocar)">Touch</button>
+      <button id="exitArBtn" type="button" title="Sair do AR">✕</button>
+    </div>
+    <div id="message"></div>
+
+    <div id="resultPanel" class="panel hidden">
+      <h2 id="resultTitle">Encaixado!</h2>
+      <p id="resultBody"></p>
+      <button id="nextBtn" type="button">Próxima</button>
+    </div>
+
+    <div id="fatiguePanel" class="panel hidden">
+      <h2>Quão cansados estão seus braços?</h2>
+      <div class="scale">
+        <button type="button" data-rating="1">1</button>
+        <button type="button" data-rating="2">2</button>
+        <button type="button" data-rating="3">3</button>
+        <button type="button" data-rating="4">4</button>
+        <button type="button" data-rating="5">5</button>
+      </div>
+      <p class="scaleEnds"><span>1 = nada</span><span>5 = muito</span></p>
+    </div>
+
+    <button id="replaceBtn" type="button" class="hidden">Reposicionar</button>
+    <div id="rotatePad" class="hidden">
+      <span class="arrow">⟲</span><div id="rotateKnob"></div><span class="arrow">⟳</span>
+    </div>
+    <button id="carryBtn" type="button" class="hidden">Segurar</button>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
